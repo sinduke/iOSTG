@@ -7,27 +7,12 @@
 
 import SwiftUI
 
-
 struct SettingsView: View {
-
-
     var body: some View {
-
-
         Form {
-
-
-            Text(
-                "Account"
-            )
-
-
-            Text(
-                "Notification"
-            )
-
+            Text("Account")
+            Text("Notification")
         }
-
         .navigationTitle(
             "Settings"
         )

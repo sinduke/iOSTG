@@ -1,3 +1,12 @@
+//
+//  AppViewFactory.swift
+//  iOSTG
+//
+//  Created by sinduke on 8/7/26.
+//
+
+import SwiftUI
+
 struct AppViewFactory<TabbarView: View, OnboardingView: View>: View {
     var showTabbar: Bool = false
     @ViewBuilder var tabbarView: () -> TabbarView
