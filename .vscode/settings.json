@@ -185,7 +185,7 @@
   },
   // 同时接受美式和英式英语；项目专有词加入白名单。
   "cSpell.language": "en,en-GB",
-  "cSpell.words": ["iOSTG", "iOSTGUI", "lintable", "XCUI"],
+  "cSpell.words": ["gearshape", "iOSTG", "iOSTGUI", "lintable", "XCUI"],
 
   // MARK: - 文件卫生与性能
   // 保存时删除行尾空格、确保文件末尾只有一个换行，减少无意义 Git diff。
