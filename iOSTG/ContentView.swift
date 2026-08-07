@@ -7,18 +7,49 @@
 
 import SwiftUI
 
+enum AppRoute: Hashable {
+    case detail(id: Int)
+    case settings
+}
+
+@Observable
+final class AppRouter {
+    var path = NavigationPath()
+    
+    func push(_ route: AppRoute) {
+        path.append(route)
+    }
+    
+    func pop() {
+        path.removeLast()
+    }
+    
+    func popToRoot() {
+        path.removeLast(path.count)
+    }
+}
+
 struct ContentView: View {
+    @Environment(AppRouter.self) private var router
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        List {
+            Section {
+                Button {
+                    router.push(.detail(id: 1))
+                } label: {
+                    Text("Go to Detail View")
+                }
+            } header: {
+                Text("First Section")
+            }
         }
-        .padding()
+        .navigationTitle("List View")
     }
 }
 
 #Preview {
-    ContentView()
+    NavigationStack {
+        ContentView()
+    }
+    .environment(AppRouter())
 }
