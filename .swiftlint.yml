@@ -1,0 +1,113 @@
+# SwiftLint 项目配置。
+# 所有相对路径均以此文件所在的项目根目录为基准。
+
+# 只扫描 App、Unit Tests 和 UI Tests 三个源码目录。
+included:
+  - iOSTG
+  - iOSTGTests
+  - iOSTGUITests
+
+# 跳过构建产物、第三方依赖和生成代码。
+excluded:
+  - .build
+  - build
+  - DerivedData
+  - Pods
+  - Carthage
+  - SourcePackages
+  - "**/*.generated.swift"
+
+# 在 SwiftLint 默认规则的基础上启用安全、性能和可读性规则。
+opt_in_rules:
+  # 避免为计数创建临时过滤数组。
+  - contains_over_filter_count
+  # 避免为 isEmpty 判断创建临时过滤数组。
+  - contains_over_filter_is_empty
+  # 使用 collection.isEmpty，而不是与空集合字面量比较。
+  - empty_collection_literal
+  # 使用 string.isEmpty，而不是与空字符串比较。
+  - empty_string
+  # 避免 switch fallthrough，使控制流更明确。
+  - fallthrough
+  # fatalError 必须提供有意义的错误消息。
+  - fatal_error_message
+  # 使用 first(where:)，而不是 filter(...).first。
+  - first_where
+  # 提醒避免可选值强制解包。
+  - force_unwrapping
+  # 使用 last(where:)，而不是 filter(...).last。
+  - last_where
+  # 检查 UIKit 重写方法是否按要求调用 super。
+  - overridden_super_call
+  # 使用 min()/max()，而不是完整排序后取首尾元素。
+  - sorted_first_last
+  # 多行函数调用参数保持垂直对齐。
+  - vertical_parameter_alignment_on_call
+  # delegate 引用通常应为 weak，降低循环引用风险。
+  - weak_delegate
+  # 比较表达式保持变量在左、常量在右。
+  - yoda_condition
+
+# 没有找到 Swift 文件时直接报错，避免配置路径错误却静默通过。
+allow_zero_lintable_files: false
+# 构建期间不联网检查 SwiftLint 更新。
+check_for_updates: false
+# warning 保持为 warning，只有显式 error 规则阻止构建。
+strict: false
+# 输出 Xcode 可点击跳转的文件、行和列信息。
+reporter: xcode
+
+# 单行超过 120 字符警告，超过 160 字符报错。
+line_length:
+  warning: 120
+  error: 160
+  # 注释和 URL 经常天然较长，不纳入限制。
+  ignores_comments: true
+  ignores_urls: true
+
+# 单文件长度限制。
+file_length:
+  warning: 500
+  error: 800
+  ignore_comment_only_lines: true
+
+# 单个 class、struct 或 enum 的主体长度限制。
+type_body_length:
+  warning: 300
+  error: 450
+
+# 单个函数或方法的主体长度限制。
+function_body_length:
+  warning: 60
+  error: 100
+
+# 圈复杂度反映分支数量，过高时应拆分职责。
+cyclomatic_complexity:
+  warning: 10
+  error: 20
+
+# 标识符至少两个字符，同时保留项目中的常见短名称。
+identifier_name:
+  min_length:
+    warning: 2
+  excluded:
+    - id
+    - x
+    - y
+
+# 保留 Apple 平台名称 iOS 的小写开头拼写。
+type_name:
+  excluded:
+    - iOSTGApp
+    - iOSTGTests
+    - iOSTGUITests
+    - iOSTGUITestsLaunchTests
+
+# 强制类型转换和强制 try 可能直接导致运行时崩溃，因此按 error 处理。
+force_cast: error
+force_try: error
+
+# 禁止行尾多余空格，但允许空白行和注释行保留排版。
+trailing_whitespace:
+  ignores_empty_lines: true
+  ignores_comments: true

@@ -1,0 +1,26 @@
+{
+    // 这里只声明当前项目推荐的扩展。
+    // VS Code 会提示安装缺失项，但不会强制安装、卸载或改变其他项目的扩展配置。
+    "recommendations": [
+        // Swift 官方扩展：SourceKit-LSP、补全、跳转、重构和语言诊断。
+        "swiftlang.swift-vscode",
+        // Xcode 工程构建、运行、测试、模拟器入口、BSP 和 swift-format。
+        "sweetpad.sweetpad",
+        // SweetPad 使用的 LLDB 调试适配器。
+        "vadimcn.vscode-lldb",
+        // 将编译器与 SwiftLint 问题直接显示在代码行附近。
+        "usernamehw.errorlens",
+        // 检查英文标识符、注释和文档拼写。
+        "streetsidesoftware.code-spell-checker",
+        // 汇总 TODO、FIXME、HACK、NOTE 和 MARK。
+        "gruntfuggly.todo-tree",
+        // 为重要、疑问、TODO 和 MARK 注释提供稳定颜色。
+        "aaron-bond.better-comments",
+        // 读取项目根目录 .editorconfig，统一基础缩进、换行和编码约定。
+        "editorconfig.editorconfig",
+        // 用轻量彩色竖线区分多层 SwiftUI 嵌套缩进。
+        "oderwat.indent-rainbow",
+        // 为 .swiftlint.yml 提供 YAML 语法、结构检查和补全。
+        "redhat.vscode-yaml"
+    ]
+}

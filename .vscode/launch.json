@@ -1,0 +1,17 @@
+{
+    // VS Code 调试配置文件版本；这是固定协议版本，不是项目版本。
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // 使用 SweetPad 提供的 LLDB 调试类型，使它能理解 Xcode App 和模拟器。
+            "type": "sweetpad-lldb",
+            // App 先由 SweetPad 启动，再让 LLDB 附加到正在运行的进程。
+            "request": "attach",
+            // 显示在 VS Code“运行和调试”下拉菜单中的名称。
+            "name": "Attach to running app (SweetPad)",
+            // 按 F5 前先执行 SweetPad launch：构建 App、启动所选模拟器并运行 App。
+            // 模拟器需要先在 SweetPad 状态栏选择一次，但不会把 UDID写入项目文件。
+            "preLaunchTask": "sweetpad: launch"
+        }
+    ]
+}

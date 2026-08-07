@@ -1,0 +1,209 @@
+{
+  // MARK: - SweetPad / Xcode 工程
+  // 指定项目内的 Xcode Workspace。虽然仓库只有 .xcodeproj，但 Xcode 会在其中提供
+  // project.xcworkspace；SweetPad 通过它读取 Scheme、Target、SDK 和构建设置。
+  "sweetpad.build.xcodeWorkspacePath": "iOSTG.xcodeproj/project.xcworkspace",
+  // 固定当前项目使用的共享 Scheme，避免每次打开工作区都重新选择。
+  "sweetpad.build.scheme": "iOSTG",
+  // 日常构建和测试统一使用 Debug，保留断点、调试符号和完整诊断信息。
+  "sweetpad.build.configuration": "Debug",
+  "sweetpad.testing.configuration": "Debug",
+  // 使用 xcbeautify 整理 xcodebuild 的原始输出，使错误、警告和 Target 更容易阅读。
+  "sweetpad.build.xcbeautifyEnabled": true,
+
+  // SourceKit-LSP 需要真实的 Xcode 编译参数才能理解 SwiftUI、XCTest 和项目 Target。
+  // xcode-build-server 会读取 Xcode 构建日志，并通过 buildServer.json 提供这些参数。
+  "sweetpad.buildServer.provider": "xcode-build-server",
+  // 明确指定 Homebrew 安装的位置，避免 VS Code 的 PATH 与终端不同而找不到程序。
+  "sweetpad.xcodebuildserver.path": "/opt/homebrew/bin/xcode-build-server",
+  // 工程或 Scheme 变化时自动维护 buildServer.json，并重启 Swift 语言服务加载新参数。
+  "sweetpad.build.autoGenerateBuildServerConfig": true,
+  "sweetpad.build.autoRestartSwiftLSP": true,
+
+  // 从 VS Code 构建或运行时，将所选模拟器自动带到前台。
+  // 模拟器的具体 UDID 不写入本文件，仍由每台 Mac 在 SweetPad 中自行选择。
+  "sweetpad.build.bringSimulatorToForeground": true,
+  // 构建过程中持续显示日志；失败时不必等整个任务结束才看到原因。
+  "sweetpad.build.logStreamEnabled": true,
+  // SweetPad 的内部执行路径不可用时，允许回退到系统 xcodebuild。
+  "sweetpad.system.xcodebuildFallback": true,
+  // 使用 SweetPad 当前推荐的 v3 任务执行器。
+  "sweetpad.system.taskExecutor": "v3",
+  // 最多等待 15 秒读取登录 Shell 环境，避免 Homebrew 工具尚未进入 PATH。
+  "sweetpad.shellEnv.timeout": 15000,
+  // 执行构建、测试和脚本时自动显示终端，并在状态栏显示当前进度。
+  "sweetpad.system.autoRevealTerminal": true,
+  "sweetpad.system.showProgressStatusBar": true,
+  // 不向 SweetPad 的错误收集服务发送本项目运行信息。
+  "sweetpad.system.enableSentry": false,
+
+  // MARK: - Swift 工具链与 SourceKit-LSP
+  // 当前电脑同时安装了 Swiftly 开发快照。这里强制使用 Xcode 自带的 Swift，确保
+  // VS Code 的补全和诊断与 Xcode 实际编译器、iOS SDK 保持一致。
+  "swift.path": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+  // 开启后台索引，改善跨文件跳转、查找引用、重命名和自动补全。
+  "swift.sourcekit-lsp.backgroundIndexing": "on",
+  // 日常开发不记录大量 LSP 通信；排查 SourceKit 问题时可临时改为 messages/verbose。
+  "swift.sourcekit-lsp.trace.server": "off",
+  // Swift 官方扩展需要选择调试适配器；当前项目与 SweetPad 统一使用 CodeLLDB。
+  "swift.debugger.debugAdapter": "CodeLLDB",
+
+  // MARK: - SwiftLint 实时诊断
+  // VS Code 与 Xcode Build Phase 共用项目根目录的 .swiftlint.yml，避免维护两套规则。
+  "swiftlint.enable": true,
+  // 本项目是 Xcode 工程而不是 Swift Package，因此不能只在 SwiftPM 项目中启用。
+  "swiftlint.onlyEnableOnSwiftPMProjects": false,
+  // 只有找到指定配置文件时才启动，避免扩展误扫其他目录或依赖源码。
+  "swiftlint.onlyEnableWithConfig": true,
+  // 明确使用 Homebrew 安装的 SwiftLint 0.65，而不是依赖 VS Code 的 PATH 猜测。
+  "swiftlint.path": "/opt/homebrew/bin/swiftlint",
+  // SwiftLint 解析源码时使用与 Xcode 相同的工具链。
+  "swiftlint.toolchainPath": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain",
+  // 固定根配置文件。注意：该选项会关闭 SwiftLint 的嵌套配置搜索，本项目只有一份配置。
+  "swiftlint.configSearchPaths": [".swiftlint.yml"],
+  // 强制应用 .swiftlint.yml 中的 excluded 路径，即使文件由编辑器直接打开。
+  "swiftlint.additionalParameters": ["--force-exclude"],
+  // 打开工作区时不立刻扫描全部文件；编辑时仍实时诊断，完整检查由构建脚本负责。
+  "swiftlint.autoLintWorkspace": false,
+
+  // MARK: - Swift 文件编辑行为
+  // 此段只作用于 Swift，不会改变 JSON、YAML、PHP 或其他项目的编辑习惯。
+  "[swift]": {
+    // SweetPad 调用 Xcode 自带的 swift-format；保存 Swift 文件时自动统一排版。
+    "editor.defaultFormatter": "sweetpad.sweetpad",
+    "editor.formatOnSave": true,
+    // 与当前 iOSTG 源码和 .swift-format 保持一致，使用四个空格而不是 Tab。
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    // 100 字符作为提前提醒，120 字符对应 SwiftLint 的正式 warning 阈值。
+    "editor.rulers": [100, 120],
+    // 只在显示时按 120 字符软换行，不会自动在源码中插入换行符。
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 120,
+    // 保存时只报告 SwiftLint 问题，不自动执行可能改变程序含义的批量修复。
+    "editor.codeActionsOnSave": {
+      "source.fixAll.swiftlint": "never"
+    }
+  },
+
+  // MARK: - 代码结构与阅读辅助
+  // 为嵌套括号和缩进层级提供颜色、竖线与活动范围提示，阅读长 SwiftUI View 时更直观。
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.bracketPairsHorizontal": "active",
+  "editor.guides.highlightActiveBracketPair": true,
+  "editor.guides.indentation": true,
+  "editor.guides.highlightActiveIndentation": true,
+  "editor.matchBrackets": "always",
+  // 滚动长文件时将当前类型或函数标题固定在顶部，最多显示五层上下文。
+  "editor.stickyScroll.enabled": true,
+  "editor.stickyScroll.maxLineCount": 5,
+  // 保留代码折叠，并始终显示折叠按钮和折叠范围高亮。
+  "editor.folding": true,
+  "editor.foldingHighlight": true,
+  "editor.showFoldingControls": "always",
+  // 显示边界空格和不可见控制字符，方便发现混合缩进、异常空格或粘贴污染。
+  "editor.renderWhitespace": "boundary",
+  "editor.renderControlCharacters": true,
+  // 使用 SourceKit 提供的语义高亮和类型/参数提示。
+  "editor.semanticHighlighting.enabled": true,
+  "editor.inlayHints.enabled": "on",
+  // 保留代码缩略图；只有鼠标经过时显示滑块，减少视觉干扰。
+  "editor.minimap.enabled": true,
+  "editor.minimap.showSlider": "mouseover",
+
+  // MARK: - Indent Rainbow
+  // 只在本项目常编辑的 Swift、YAML 和 JSONC 中显示彩色缩进层级。
+  "indentRainbow.includedLanguages": ["swift", "yaml", "jsonc"],
+  // 使用轻量竖线而不是大面积背景色，避免干扰 Swift 语义高亮。
+  "indentRainbow.indicatorStyle": "light",
+  "indentRainbow.lightIndicatorStyleLineWidth": 1,
+  "indentRainbow.colorOnWhiteSpaceOnly": true,
+  // 编辑后延迟 100 毫秒刷新，在即时反馈与性能之间取得平衡。
+  "indentRainbow.updateDelay": 100,
+
+  // MARK: - 问题、TODO 与注释识别
+  // Error Lens 将编译器和 SwiftLint 消息直接显示在对应代码行及左侧 gutter。
+  "errorLens.enabled": true,
+  "errorLens.problemRangeDecorationEnabled": true,
+  "errorLens.gutterIconsEnabled": true,
+  "problems.decorations.enabled": true,
+  // Todo Tree 扫描这些维护标记，并在侧栏形成可跳转列表。
+  "todo-tree.general.tags": ["TODO", "FIXME", "HACK", "NOTE", "MARK"],
+  "todo-tree.highlights.enabled": true,
+  "todo-tree.highlights.useColourScheme": true,
+  "todo-tree.tree.scanAtStartup": true,
+  // Todo Tree 当前版本无法自动找到 VS Code 内置 ripgrep，因此使用 Homebrew 的 rg。
+  "todo-tree.ripgrep.ripgrep": "/opt/homebrew/bin/rg",
+  // Better Comments 的颜色含义：红色重要、蓝色疑问、黄色待办、绿色代码分区。
+  "better-comments.tags": [
+    {
+      "tag": "!",
+      "color": "#FF4D4F",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": false
+    },
+    {
+      "tag": "?",
+      "color": "#40A9FF",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": false
+    },
+    {
+      "tag": "TODO",
+      "color": "#FAAD14",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": false
+    },
+    {
+      "tag": "MARK",
+      "color": "#73D13D",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": true,
+      "italic": false
+    }
+  ],
+
+  // MARK: - 英文拼写检查
+  // 先关闭所有文件类型，再只开启 Swift、Markdown 和 YAML，避免资源文件产生大量噪音。
+  "cSpell.enabledFileTypes": {
+    "*": false,
+    "swift": true,
+    "markdown": true,
+    "yaml": true
+  },
+  // 同时接受美式和英式英语；项目专有词加入白名单。
+  "cSpell.language": "en,en-GB",
+  "cSpell.words": ["iOSTG", "iOSTGUI", "lintable", "XCUI"],
+
+  // MARK: - 文件卫生与性能
+  // 保存时删除行尾空格、确保文件末尾只有一个换行，减少无意义 Git diff。
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  // 构建产物不参与搜索，避免搜索结果被二进制、索引和生成文件淹没。
+  "search.exclude": {
+    "**/.build": true,
+    "**/build": true,
+    "**/DerivedData": true,
+    "**/.sweetpad": true
+  },
+  // 同一批目录也不由 VS Code 文件监听器监控，降低大型构建后的 CPU 与 I/O 开销。
+  "files.watcherExclude": {
+    "**/.build/**": true,
+    "**/build/**": true,
+    "**/DerivedData/**": true,
+    "**/.sweetpad/**": true
+  }
+}
