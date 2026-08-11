@@ -1,0 +1,37 @@
+#!/bin/sh
+
+commit_message_file=$1
+
+if [ -z "${commit_message_file}" ] || [ ! -r "${commit_message_file}" ]; then
+    echo "commit-msg: unable to read the commit message file." >&2
+    exit 1
+fi
+
+subject=$(sed -n '1p' "${commit_message_file}")
+
+# Allow Git-generated maintenance commits and temporary autosquash commits.
+case "${subject}" in
+    "Merge "* | "Revert \""* | "fixup! "* | "squash! "*)
+        exit 0
+        ;;
+esac
+
+if printf '%s\n' "${subject}" \
+    | grep -Eq '^\[(Base|Feature|Fix|Refactor|Docs|Test|Chore)\] [^[:space:]].*$'; then
+    exit 0
+fi
+
+cat >&2 <<'EOF'
+Invalid commit message.
+
+Required format:
+  [Type] Short description
+
+Allowed types:
+  [Base] [Feature] [Fix] [Refactor] [Docs] [Test] [Chore]
+
+Example:
+  [Feature] 添加 Onboarding 欢迎页和完成页
+EOF
+
+exit 1
