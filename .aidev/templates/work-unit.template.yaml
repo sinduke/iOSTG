@@ -1,0 +1,266 @@
+# AIDEV WorkUnit revision template.
+#
+# This file describes stable intent and typed Gate rules. Actual Decision,
+# Grant, Run, Event, Evidence, Acceptance, GateEvaluation, and projection
+# records live independently and are referenced at the end.
+
+schema_version: "aidev/work-unit/v0.1-draft"
+kind: "WorkUnitRevision"
+
+metadata:
+  id: "WU-<stable-id>"
+  revision: 1
+  title: "<short-title>"
+  project_id: "<project-id>"
+  created_at: "<RFC3339-timestamp>"
+  recording_mode: "contemporaneous" # retrospective | contemporaneous
+  source_revision: "<full-commit-sha-or-other-stable-revision>"
+  supersedes: null
+
+# Policy is versioned independently so WorkUnits cannot drift into competing
+# copies of the authority matrix or permission defaults.
+policy_refs:
+  project_policy:
+    id: "POLICY-<stable-id>"
+    revision: 1
+    locator: "<repository-relative-policy-path>"
+    digest: "sha256:<digest>"
+  reducer_contract:
+    id: "REDUCER-<stable-id>"
+    version: "<semantic-version>"
+    policy_ref: "POLICY-<stable-id>@1"
+
+# A WorkUnit becomes canonical task intent only when an independent Acceptance
+# record satisfies this condition. The WorkUnit never marks itself active.
+activation_requirement:
+  id: "ACTREQ-<stable-id>"
+  condition:
+    kind: "record_match"
+    record_kind: "Acceptance"
+    selector:
+      target_kind: "WorkUnitRevision"
+      target_ref: "WU-<stable-id>@1"
+      predicate: "accepted_as_task_intent"
+      expected: true
+      authority_domain: "task_intent"
+
+# Claims keep independent truth axes and bind observations to exact subjects.
+claims:
+  - id: "CLAIM-<stable-id>"
+    subject:
+      kind: "<source|decision|task|environment|artifact>"
+      id: "<subject-id>"
+      revision: "<subject-revision-or-fingerprint>"
+      classification: "<optional-domain-classification>"
+    predicate: "<machine-readable-predicate>"
+    value: "<typed-value>"
+    scope: "<project-component-or-environment>"
+    authority_domain: "<policy-authority-domain>"
+    epistemic_status: "observed" # observed | inferred | hypothesis | open
+    governance_status: "not_applicable" # not_applicable | proposed | decided | rejected
+    validation_status: "unverified" # unverified | passed | failed | inconclusive
+    applicability: "canonical" # canonical | experimental
+    lifecycle: "active" # active means addressable, not applicable to current HEAD
+    recording_mode: "contemporaneous"
+    recorded_at: "<RFC3339-timestamp>"
+    observed_at: "<RFC3339-timestamp-or-null>"
+    valid_from: "<revision-time-or-null>"
+    valid_to: null
+    source_refs:
+      - locator: "<repository-relative-path-or-resource>"
+        revision: "<full-subject-revision>"
+        content_digest: "<git-oid-or-sha256>"
+    source_digest: "sha256:<digest-over-sorted-source-refs>"
+    evidence_refs: []
+    freshness:
+      mode: "revision_bound" # immutable | revision_bound | fingerprint_bound | time_or_event_bound | until_superseded
+      selector: "<exact-revision-fingerprint-time-or-event>"
+    relations:
+      supersedes: []
+      corrects: []
+      invalidates: []
+      derived_from: []
+      conflicts_with: []
+
+change_revision:
+  id: "CHANGE-<stable-id>"
+  revision: 1
+  title: "<change-title>"
+  goal: "<observable-outcome>"
+  non_goals:
+    - "<explicit-non-goal>"
+  scope_ceiling:
+    projects:
+      - "<project-id>"
+    components:
+      - "<component-or-path>"
+    environments:
+      - "<local|test|staging|production>"
+  claim_refs:
+    - "CLAIM-<stable-id>"
+  decision_refs: []
+
+task_revision:
+  id: "TASK-<stable-id>"
+  revision: 1
+  change_ref: "CHANGE-<stable-id>@1"
+  title: "<task-title>"
+  goal: "<one-stable-goal>"
+  non_goals:
+    - "<explicit-non-goal>"
+  depends_on: []
+  planned_outputs:
+    - kind: "<code|test|decision|document|artifact>"
+      locator: "<expected-output-reference>"
+  context_scope:
+    required_reads:
+      - "<path-or-resource>"
+    optional_reads: []
+  capability_bounds:
+    default_effect: "deny"
+    # No Grant can cross an invariant. Gate requirements may open only actions
+    # listed as grantable and only within the declared scope ceiling.
+    invariant_forbidden_additions:
+      - action: "<action>"
+        target_selector:
+          kind: "<selector-kind>"
+          values:
+            - "<target>"
+    grantable_actions:
+      - "<edit|execute_local|stage|commit|push|tag|deploy|mutate_external_service|publish>"
+    scope_ceilings:
+      repository_paths:
+        - "<path>"
+      commands:
+        - "<command-or-evaluator-id>"
+      git_refs:
+        - "<exact-ref-or-pattern>"
+      environments:
+        - "<exact-environment-id>"
+  gate_refs:
+    - "GATE-<stable-id>"
+  context_policy_ref: "CONTEXT-<stable-id>"
+
+# Gate definitions are stable rules. A GateEvaluation record reports whether
+# these typed requirements are passed, waiting, blocked, contested, or stale.
+gates:
+  - id: "GATE-<stable-id>"
+    title: "<gate-title>"
+    purpose: "<human-readable-purpose>"
+    entry_conditions:
+      all:
+        - id: "COND-<stable-id>"
+          condition:
+            kind: "gate_evaluation_match"
+            gate_ref: "GATE-<previous-id>"
+            expected_result: "passed"
+    decision_requirements:
+      - id: "DECREQ-<stable-id>"
+        selector:
+          record_kind: "DecisionRevision"
+          subject_ref: "<subject-ref>"
+          predicate: "<decision-predicate>"
+          authority_domain: "maintainer_decision"
+          lifecycle: "active"
+    capability_requirements:
+      - id: "CAPREQ-<stable-id>"
+        action: "<edit|execute_local|stage|commit|push|tag|deploy|mutate_external_service|publish>"
+        principal_selector:
+          kind: "<agent|human|runtime>"
+          binding: "grant_principal"
+        target_selector:
+          kind: "repository_paths"
+          values:
+            - "<exact-target-or-scope-ceiling>"
+        environment_selector:
+          kind: "<workspace|git_repository|external_environment>"
+          id: "<exact-environment-id>"
+        subject_selector:
+          kind: "exact_revision"
+          value: "<exact-revision-or-fingerprint>"
+        grant_constraints:
+          mode: "single_use" # single_use | bounded_multi_use
+          transferable: false
+          expires_at_required: true
+    evidence_requirements:
+      - id: "EVREQ-<stable-id>"
+        subject_selector:
+          kind: "<exact_revision|result_revision|workspace_fingerprint>"
+          value: "<selector-value>"
+        predicate:
+          name: "<machine-readable-predicate>"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "<evaluator-id>"
+          version: "<evaluator-version>"
+        environment_selector:
+          kind: "<workspace|simulator|ci|external_environment>"
+          constraints:
+            - key: "<machine-readable-key>"
+              operator: "equals"
+              value: "<required-value>"
+        freshness:
+          mode: "revision_bound"
+    acceptance_requirements:
+      - id: "ACCEPTREQ-<stable-id>"
+        selector:
+          record_kind: "Acceptance"
+          target_kind: "<DecisionRevision|WorkUnitRevision|result_revision|EvidenceSet|GateEvaluation>"
+          target_ref: "<exact-target-or-selector>"
+          predicate: "<acceptance-predicate>"
+          expected: true
+          authority_domain: "maintainer_decision"
+    on_pass:
+      next_gate_ref: null
+    on_not_passed:
+      default_result: "waiting"
+      rollback_gate_ref: null
+
+context_policy:
+  id: "CONTEXT-<stable-id>"
+  strategy: "progressive_disclosure"
+  always_read:
+    - "<nearest-project-policy>"
+    - "<work-unit-definition>"
+  task_reads:
+    - "<directly-affected-source>"
+  exclude_by_default:
+    - "<unrelated-history-or-large-artifact>"
+  escalation_rules:
+    - when:
+        kind: "<conflict_detected|scope_expansion_requested|capability_missing>"
+        selector: "<typed-selector>"
+      add:
+        - "<additional-source>"
+  handoff_requirements:
+    include:
+      - "project_identity_and_checkout_fingerprint"
+      - "schema_policy_and_reducer_revisions"
+      - "work_unit_and_task_revisions"
+      - "event_stream_id_cursor_and_head_digest"
+      - "current_gate_and_gate_evaluations"
+      - "decision_revisions_and_pending_acceptances"
+      - "grants_with_principal_expiry_uses_and_transferability"
+      - "active_run_owner_lease_and_side_effects"
+      - "previous_run_terminal_state_and_incomplete_outputs"
+      - "valid_stale_and_contested_evidence"
+      - "open_conflicts_cleanup_and_rollback_obligations"
+
+# Runtime records are discovered from the append-only stream. Never add mutable
+# per-record lists to a WorkUnit revision.
+runtime_record_sources:
+  event_stream:
+    id: "EVENTS-<stable-id>"
+    locator: "<repository-relative-event-stream-locator>"
+    ordering: "stream_sequence"
+  independent_record_kinds:
+    - "DecisionRevision"
+    - "CapabilityGrant"
+    - "Run"
+    - "Evidence"
+    - "Acceptance"
+    - "GateEvaluation"
+  derived_projection:
+    locator: "<disposable-projection-locator-or-null>"
+    independent_authority: false

@@ -1,0 +1,187 @@
+# Synthetic policy dependency for the iOSTG AIDEV example.
+# It is not canonical iOSTG governance and grants no operational capability.
+
+schema_version: "aidev/project-policy/v0.1-draft"
+kind: "ProjectPolicyRevision"
+
+metadata:
+  id: "POLICY-IOSTG-AIDEV-EXAMPLE"
+  revision: 1
+  project_id: "iostg"
+  applicability: "experimental"
+  fixture_only: true
+  created_at: "2026-08-12T15:27:05+08:00"
+  effective_from: null
+  supersedes: null
+
+# Each fact domain names its own authority. This file delegates authority; it
+# is not a universal source of truth for the facts themselves.
+authority_domains:
+  source_history:
+    authority_kind: "git_object"
+    proves:
+      - "bytes_at_exact_revision"
+    freshness_mode: "immutable"
+  current_workspace:
+    authority_kind: "live_workspace_inspection"
+    proves:
+      - "current_checkout_and_filesystem_fingerprint"
+    freshness_mode: "fingerprint_bound"
+  maintainer_decision:
+    authority_kind: "DecisionRevision"
+    principal_selector:
+      kind: "project_maintainer"
+    proves:
+      - "intent_choice_and_non_goals"
+    freshness_mode: "until_superseded"
+  task_intent:
+    authority_kind: "Acceptance"
+    principal_selector:
+      kind: "project_maintainer"
+    target_kind: "WorkUnitRevision"
+    required_predicate: "accepted_as_task_intent"
+    freshness_mode: "until_superseded"
+  verification:
+    authority_kind: "content_addressed_Evidence"
+    proves:
+      - "declared_predicate_for_exact_subject_and_environment"
+    freshness_mode: "revision_bound"
+  runtime_state:
+    authority_kind: "live_introspection"
+    proves:
+      - "observed_runtime_state_at_time_and_environment"
+    freshness_mode: "time_or_event_bound"
+  external_system:
+    authority_kind: "live_external_control_plane"
+    proves:
+      - "external_state_at_observation_time"
+    freshness_mode: "time_or_event_bound"
+  historical_interpretation:
+    authority_kind: "DecisionRevision_or_retrospective_attestation"
+    proves:
+      - "declared_rationale_with_recording_mode"
+    freshness_mode: "until_superseded"
+  derived_view:
+    authority_kind: "none"
+    generated_by: "deterministic_reducer"
+    proves:
+      - "projection_of_exact_inputs_only"
+    freshness_mode: "fingerprint_bound"
+
+capability_policy:
+  default_effect: "deny"
+  precedence:
+    - "invariant_forbidden"
+    - "explicit_matching_grant"
+    - "unprivileged_action"
+    - "default_deny"
+  unprivileged_actions:
+    - "read"
+    - "analyze"
+    - "propose"
+  state_changing_actions_require_separate_grants:
+    - "edit"
+    - "execute_local"
+    - "stage"
+    - "commit"
+    - "push"
+    - "tag"
+    - "deploy"
+    - "mutate_external_service"
+    - "publish"
+  invariant_forbidden:
+    - id: "INVARIANT-IOSTG-NO-AIDEV-RUNTIME-DEPENDENCY"
+      predicate:
+        name: "iostg_runtime_depends_on_aidev"
+        operator: "equals"
+        expected: false
+    - id: "INVARIANT-AIDEV-NO-SECRETS"
+      predicate:
+        name: "aidev_records_contain_credentials_or_private_reasoning"
+        operator: "equals"
+        expected: false
+  grant_rules:
+    required_bindings:
+      - "principal"
+      - "action"
+      - "target"
+      - "environment"
+      - "subject_revision_or_fingerprint"
+      - "expiry_or_remaining_uses"
+    transferable_default: false
+    replacement_agent_inherits_grant: false
+    single_use_requires:
+      - "nonce"
+      - "consumed_by_event_ref"
+      - "idempotency_key"
+    external_enforcement_remains_authoritative: true
+
+record_rules:
+  acceptance:
+    requires:
+      - "principal"
+      - "authority_domain"
+      - "exact_target"
+      - "predicate"
+      - "recorded_at"
+    does_not_grant_capability: true
+  evidence:
+    requires:
+      - "content_digest"
+      - "subject_revision"
+      - "predicate"
+      - "evaluator_revision"
+      - "environment_fingerprint"
+      - "observed_at"
+    run_is_not_evidence: true
+  gate_evaluation:
+    requires:
+      - "gate_ref"
+      - "reducer_version"
+      - "input_digest"
+      - "evaluated_requirement_refs"
+      - "result"
+
+reducer_contract:
+  id: "REDUCER-AIDEV-CORE-DRAFT"
+  version: "0.1.0-draft"
+  deterministic: true
+  input_kinds:
+    - "ProjectPolicyRevision"
+    - "WorkUnitRevision"
+    - "Event"
+    - "DecisionRevision"
+    - "CapabilityGrant"
+    - "Run"
+    - "Evidence"
+    - "Acceptance"
+  event_ordering:
+    primary: "stream_sequence"
+    duplicate_event_id:
+      same_digest: "idempotent"
+      different_digest: "contested"
+    gaps: "stale"
+  requirement_evaluation:
+    all_requirements_required: true
+    natural_language_fields_are_non_normative: true
+    stale_evidence_satisfies_requirement: false
+    missing_grant_satisfies_capability: false
+    agent_proposal_satisfies_maintainer_acceptance: false
+  result_values:
+    - "passed"
+    - "waiting"
+    - "blocked"
+    - "contested"
+    - "stale"
+    - "not_applicable"
+  conflict_policy:
+    unresolved_conflict_blocks_affected_gate_only: true
+    last_write_wins: false
+  projection:
+    disposable: true
+    independent_authority: false
+    required_input_identity:
+      - "policy_revision_and_digest"
+      - "work_unit_revision_and_digest"
+      - "event_stream_id_cursor_and_head_digest"
+      - "reducer_id_and_version"

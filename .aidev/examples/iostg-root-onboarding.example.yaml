@@ -1,0 +1,736 @@
+# Source-backed AIDEV WorkUnit example for iOSTG.
+#
+# This is a conformance fixture, not an accepted App task. The separate event
+# fixture uses a synthetic Acceptance solely to demonstrate reducer behavior.
+# No edit, command execution, stage, commit, push, tag, deployment, external
+# mutation, or publication is authorized by this file.
+
+schema_version: "aidev/work-unit/v0.1-draft"
+kind: "WorkUnitRevision"
+
+metadata:
+  id: "WU-IOSTG-ROOT-ONBOARDING-0001"
+  revision: 1
+  title: "Converge the iOSTG root and onboarding completion path"
+  project_id: "iostg"
+  created_at: "2026-08-12T15:27:05+08:00"
+  recording_mode: "contemporaneous"
+  source_revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+  supersedes: null
+
+policy_refs:
+  project_policy:
+    id: "POLICY-IOSTG-AIDEV-EXAMPLE"
+    revision: 1
+    locator: ".aidev/examples/iostg-project-policy.example.yaml"
+    digest: "sha256:c3a6d5e43e9d64c643f1f780354b61cd02132741df98ccd104a366181937abfa"
+  reducer_contract:
+    id: "REDUCER-AIDEV-CORE-DRAFT"
+    version: "0.1.0-draft"
+    policy_ref: "POLICY-IOSTG-AIDEV-EXAMPLE@1"
+
+activation_requirement:
+  id: "ACTREQ-IOSTG-ROOT-0001"
+  condition:
+    kind: "record_match"
+    record_kind: "Acceptance"
+    selector:
+      target_kind: "WorkUnitRevision"
+      target_ref: "WU-IOSTG-ROOT-ONBOARDING-0001@1"
+      predicate: "accepted_as_task_intent"
+      expected: true
+      authority_domain: "task_intent"
+
+claims:
+  - id: "CLAIM-IOSTG-ROOT-0001"
+    subject:
+      kind: "source"
+      id: "iostg-app-entry-declaration"
+      revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+      classification: "current_app_entry_source"
+    predicate: "source_declared_entry_path"
+    value:
+      app_type: "iOSTGApp"
+      container_type: "NavigationStack"
+      root_view_type: "ContentView"
+    scope: "iostg/app/root"
+    authority_domain: "source_history"
+    epistemic_status: "observed"
+    governance_status: "not_applicable"
+    validation_status: "unverified"
+    applicability: "canonical"
+    lifecycle: "active"
+    recording_mode: "contemporaneous"
+    recorded_at: "2026-08-12T15:27:05+08:00"
+    observed_at: "2026-08-12T15:27:05+08:00"
+    valid_from: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+    valid_to: null
+    source_refs:
+      - locator: "iOSTG/iOSTGApp.swift"
+        revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+        content_digest: "git-sha1:c737b70df59c5d195267de6199b35319fd28f05d"
+      - locator: "iOSTG/ContentView.swift"
+        revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+        content_digest: "git-sha1:4f0d9a2723b83937ac367cd4af9704d265caf5bd"
+    source_digest: "sha256:ced33d9ea74bea5592ee8928d64bfeb40dce3fb49324459a80ec0e23b2e21d2c"
+    evidence_refs: []
+    freshness:
+      mode: "revision_bound"
+      selector: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+    relations:
+      supersedes: []
+      corrects: []
+      invalidates: []
+      derived_from: []
+      conflicts_with: []
+
+  - id: "CLAIM-IOSTG-ROOT-0002"
+    subject:
+      kind: "source"
+      id: "iostg-onboarding-candidate-path"
+      revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+      classification: "experimental_implementation_path"
+    predicate: "source_declared_reachable_from_app_entry"
+    value: false
+    scope: "iostg/app/root"
+    authority_domain: "source_history"
+    epistemic_status: "observed"
+    governance_status: "not_applicable"
+    validation_status: "unverified"
+    applicability: "canonical"
+    lifecycle: "active"
+    recording_mode: "contemporaneous"
+    recorded_at: "2026-08-12T15:27:05+08:00"
+    observed_at: "2026-08-12T15:27:05+08:00"
+    valid_from: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+    valid_to: null
+    source_refs:
+      - locator: "iOSTG/Core/AppView/AppView.swift"
+        revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+        content_digest: "git-sha1:8959e8283d635448a8fc3c6693f093585c1a2e65"
+      - locator: "iOSTG/Core/AppView/AppViewFactory.swift"
+        revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+        content_digest: "git-sha1:dffd41ec57176d20d3b0619b0b9b21bb0ae4af32"
+      - locator: "iOSTG/Core/Welcome/WelcomeView.swift"
+        revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+        content_digest: "git-sha1:a5cbbd7d8d371e3d504d78ff95caafdddd5b9146"
+    source_digest: "sha256:f715e2d193e1d224c20119d6fd19ad6eaf09c9c6b6b8d68dfe059684f77a4120"
+    evidence_refs: []
+    freshness:
+      mode: "revision_bound"
+      selector: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+    relations:
+      supersedes: []
+      corrects: []
+      invalidates: []
+      derived_from: []
+      conflicts_with: []
+
+  - id: "CLAIM-IOSTG-ROOT-0003"
+    subject:
+      kind: "source"
+      id: "iostg-onboarding-finished-action"
+      revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+      classification: "experimental_implementation_path"
+    predicate: "source_declared_finished_action_effect_count"
+    value: 0
+    scope: "iostg/app/onboarding"
+    authority_domain: "source_history"
+    epistemic_status: "observed"
+    governance_status: "not_applicable"
+    validation_status: "unverified"
+    applicability: "canonical"
+    lifecycle: "active"
+    recording_mode: "contemporaneous"
+    recorded_at: "2026-08-12T15:27:05+08:00"
+    observed_at: "2026-08-12T15:27:05+08:00"
+    valid_from: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+    valid_to: null
+    source_refs:
+      - locator: "iOSTG/Core/Onboarding/Completed/CompletedView.swift"
+        revision: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+        content_digest: "git-sha1:06f3651dbb4b53826aab273735ed1610297fa575"
+    source_digest: "sha256:cd3d9d02fb513bdd51552d56c3b179d946fe2dce65d1cdaeec421a48cb8b9b5c"
+    evidence_refs: []
+    freshness:
+      mode: "revision_bound"
+      selector: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+    relations:
+      supersedes: []
+      corrects: []
+      invalidates: []
+      derived_from: []
+      conflicts_with: []
+
+change_revision:
+  id: "CHANGE-IOSTG-ROOT-0001"
+  revision: 1
+  title: "Choose and implement one canonical iOSTG root flow"
+  goal: >-
+    Establish one maintainer-approved runtime entry and a verifiable onboarding
+    completion transition without erasing competing historical paths.
+  non_goals:
+    - "Do not choose an application-wide architecture pattern on behalf of the maintainer."
+    - "Do not add Firebase, an API, a database, or a third-party dependency."
+    - "Do not rewrite or remove historical ContentView/AppView experiments."
+    - "Do not push, deploy, mutate an external system, or publish."
+  scope_ceiling:
+    projects:
+      - "iostg"
+    components:
+      - "iOSTG/iOSTGApp.swift"
+      - "iOSTG/ContentView.swift"
+      - "iOSTG/Core/AppView/"
+      - "iOSTG/Core/Welcome/"
+      - "iOSTG/Core/Onboarding/"
+      - "iOSTGTests/"
+      - "iOSTGUITests/"
+    environments:
+      - "local_worktree"
+      - "local_git_repository"
+      - "iOS_Simulator"
+  claim_refs:
+    - "CLAIM-IOSTG-ROOT-0001"
+    - "CLAIM-IOSTG-ROOT-0002"
+    - "CLAIM-IOSTG-ROOT-0003"
+  decision_refs: []
+
+task_revision:
+  id: "TASK-IOSTG-ROOT-0001"
+  revision: 1
+  change_ref: "CHANGE-IOSTG-ROOT-0001@1"
+  title: "Converge Root ownership and onboarding completion"
+  goal: >-
+    Implement the maintainer-selected Root state ownership and prove first
+    launch, completion, relaunch, and reset behavior on the selected path.
+  non_goals:
+    - "No production service or external data mutation."
+    - "No architecture promotion without a separate maintainer DecisionRevision."
+    - "No publication implied by successful local verification."
+  depends_on: []
+  planned_outputs:
+    - kind: "decision"
+      locator: "DECISION-IOSTG-ROOT-OWNERSHIP@1"
+    - kind: "code"
+      locator: "maintainer-selected Root and onboarding paths"
+    - kind: "test"
+      locator: "first-launch, completion, relaunch, and reset coverage"
+    - kind: "artifact"
+      locator: "revision-bound build, UI-test, and runtime Evidence"
+  context_scope:
+    required_reads:
+      - "AGENTS.md"
+      - "README.md"
+      - "CONTRIBUTING.md"
+      - "iOSTG/iOSTGApp.swift"
+      - "iOSTG/ContentView.swift"
+      - "iOSTG/Core/AppView/AppView.swift"
+      - "iOSTG/Core/AppView/AppViewFactory.swift"
+      - "iOSTG/Core/Welcome/WelcomeView.swift"
+      - "iOSTG/Core/Onboarding/Completed/CompletedView.swift"
+    optional_reads:
+      - "iOSTGTests/"
+      - "iOSTGUITests/"
+  capability_bounds:
+    default_effect: "deny"
+    invariant_forbidden_additions:
+      - action: "push"
+        target_selector:
+          kind: "git_remote"
+          values:
+            - "any"
+      - action: "deploy"
+        target_selector:
+          kind: "environment"
+          values:
+            - "any"
+      - action: "mutate_external_service"
+        target_selector:
+          kind: "external_system"
+          values:
+            - "any"
+      - action: "publish"
+        target_selector:
+          kind: "publication_channel"
+          values:
+            - "any"
+    grantable_actions:
+      - "edit"
+      - "execute_local"
+      - "stage"
+      - "commit"
+      - "tag"
+    scope_ceilings:
+      repository_paths:
+        - "iOSTG/iOSTGApp.swift"
+        - "iOSTG/ContentView.swift"
+        - "iOSTG/Core/AppView/"
+        - "iOSTG/Core/Welcome/"
+        - "iOSTG/Core/Onboarding/"
+        - "iOSTGTests/"
+        - "iOSTGUITests/"
+      commands:
+        - "xcodebuild"
+        - "xcrun simctl"
+      git_refs:
+        - "refs/tags/CP-*"
+      environments:
+        - "local_worktree"
+        - "local_git_repository"
+        - "iOS_Simulator"
+  gate_refs:
+    - "GATE-IOSTG-ROOT-DECISION"
+    - "GATE-IOSTG-ROOT-IMPLEMENTATION"
+    - "GATE-IOSTG-ROOT-VERIFICATION"
+    - "GATE-IOSTG-ROOT-STAGE"
+    - "GATE-IOSTG-ROOT-COMMIT"
+    - "GATE-IOSTG-ROOT-CHECKPOINT"
+  context_policy_ref: "CONTEXT-IOSTG-ROOT-0001"
+
+gates:
+  - id: "GATE-IOSTG-ROOT-DECISION"
+    title: "Root ownership decision"
+    purpose: "Prevent an Agent from choosing between competing Root paths."
+    entry_conditions:
+      all:
+        - id: "COND-IOSTG-WORK-UNIT-ACTIVE"
+          condition:
+            kind: "record_match"
+            record_kind: "Acceptance"
+            selector:
+              target_kind: "WorkUnitRevision"
+              target_ref: "WU-IOSTG-ROOT-ONBOARDING-0001@1"
+              predicate: "accepted_as_task_intent"
+              expected: true
+              authority_domain: "task_intent"
+    decision_requirements:
+      - id: "DECREQ-IOSTG-ROOT-OWNERSHIP"
+        selector:
+          record_kind: "DecisionRevision"
+          subject_ref: "iostg/app/root-ownership"
+          predicate: "canonical_root_and_state_owner_selected"
+          authority_domain: "maintainer_decision"
+          lifecycle: "active"
+    capability_requirements: []
+    evidence_requirements: []
+    acceptance_requirements: []
+    on_pass:
+      next_gate_ref: "GATE-IOSTG-ROOT-IMPLEMENTATION"
+    on_not_passed:
+      default_result: "waiting"
+      rollback_gate_ref: null
+
+  - id: "GATE-IOSTG-ROOT-IMPLEMENTATION"
+    title: "Bounded local implementation"
+    purpose: "Open only the selected local write scope."
+    entry_conditions:
+      all:
+        - id: "COND-IOSTG-DECISION-PASSED"
+          condition:
+            kind: "gate_evaluation_match"
+            gate_ref: "GATE-IOSTG-ROOT-DECISION"
+            expected_result: "passed"
+    decision_requirements: []
+    capability_requirements:
+      - id: "CAPREQ-IOSTG-ROOT-EDIT"
+        action: "edit"
+        principal_selector:
+          kind: "agent"
+          binding: "grant_principal"
+        target_selector:
+          kind: "repository_paths_from_decision"
+          decision_requirement_ref: "DECREQ-IOSTG-ROOT-OWNERSHIP"
+          bounded_by: "task_revision.capability_bounds.scope_ceilings.repository_paths"
+        environment_selector:
+          kind: "workspace"
+          id: "local_worktree"
+        subject_selector:
+          kind: "exact_revision_or_approved_fingerprint"
+          value: "dccf745f27bbabc3b9642f0ecdb47df6c3c1f15a"
+        grant_constraints:
+          mode: "single_use"
+          transferable: false
+          expires_at_required: true
+    evidence_requirements:
+      - id: "EVREQ-IOSTG-ROOT-DIFF-SCOPE"
+        subject_selector:
+          kind: "workspace_fingerprint"
+          value: "implementation_result"
+        predicate:
+          name: "diff_within_granted_scope"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "aidev.diff-scope"
+          version: "0.1.0-draft"
+        environment_selector:
+          kind: "workspace"
+          constraints:
+            - key: "workspace_id"
+              operator: "equals"
+              value: "local_worktree"
+        freshness:
+          mode: "fingerprint_bound"
+    acceptance_requirements: []
+    on_pass:
+      next_gate_ref: "GATE-IOSTG-ROOT-VERIFICATION"
+    on_not_passed:
+      default_result: "waiting"
+      rollback_gate_ref: null
+
+  - id: "GATE-IOSTG-ROOT-VERIFICATION"
+    title: "Root behavior verification and acceptance"
+    purpose: "Prove behavior and bind maintainer acceptance to the exact result."
+    entry_conditions:
+      all:
+        - id: "COND-IOSTG-IMPLEMENTATION-PASSED"
+          condition:
+            kind: "gate_evaluation_match"
+            gate_ref: "GATE-IOSTG-ROOT-IMPLEMENTATION"
+            expected_result: "passed"
+    decision_requirements: []
+    capability_requirements:
+      - id: "CAPREQ-IOSTG-ROOT-VERIFY-LOCAL"
+        action: "execute_local"
+        principal_selector:
+          kind: "agent_or_human"
+          binding: "grant_principal"
+        target_selector:
+          kind: "command_set"
+          values:
+            - "xcodebuild"
+            - "xcrun simctl"
+        environment_selector:
+          kind: "workspace_and_simulator"
+          id: "local_worktree+iOS_Simulator"
+        subject_selector:
+          kind: "workspace_fingerprint"
+          value: "implementation_result"
+        grant_constraints:
+          mode: "bounded_multi_use"
+          transferable: false
+          expires_at_required: true
+    evidence_requirements:
+      - id: "EVREQ-IOSTG-ROOT-BUILD"
+        subject_selector:
+          kind: "workspace_fingerprint"
+          value: "implementation_result"
+        predicate:
+          name: "ios_simulator_build_succeeds"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "xcodebuild"
+          version: "recorded_at_run"
+        environment_selector:
+          kind: "workspace"
+          constraints:
+            - key: "destination_type"
+              operator: "equals"
+              value: "iOS_Simulator"
+            - key: "code_signing_allowed"
+              operator: "equals"
+              value: false
+        freshness:
+          mode: "fingerprint_bound"
+      - id: "EVREQ-IOSTG-ROOT-UI-BEHAVIOR"
+        subject_selector:
+          kind: "workspace_fingerprint"
+          value: "implementation_result"
+        predicate:
+          name: "onboarding_state_matrix_passes"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "iostg.ui-behavior-suite"
+          version: "work-unit-0001"
+        environment_selector:
+          kind: "simulator"
+          constraints:
+            - key: "scenarios"
+              operator: "contains_exact_set"
+              value:
+                - "fresh_launch"
+                - "completion"
+                - "relaunch"
+                - "reset"
+        freshness:
+          mode: "fingerprint_bound"
+      - id: "EVREQ-IOSTG-ROOT-RUNTIME-PATH"
+        subject_selector:
+          kind: "workspace_fingerprint"
+          value: "implementation_result"
+        predicate:
+          name: "runtime_reaches_decided_root_and_completion"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "iostg.runtime-path-observer"
+          version: "work-unit-0001"
+        environment_selector:
+          kind: "simulator"
+          constraints:
+            - key: "runtime_fingerprint_recorded"
+              operator: "equals"
+              value: true
+        freshness:
+          mode: "fingerprint_bound"
+    acceptance_requirements:
+      - id: "ACCEPTREQ-IOSTG-ROOT-RESULT"
+        selector:
+          record_kind: "Acceptance"
+          target_kind: "result_revision"
+          target_ref: "implementation_result"
+          predicate: "accepted_as_canonical_root_behavior"
+          expected: true
+          authority_domain: "maintainer_decision"
+    on_pass:
+      next_gate_ref: "GATE-IOSTG-ROOT-STAGE"
+    on_not_passed:
+      default_result: "waiting"
+      rollback_gate_ref: "GATE-IOSTG-ROOT-IMPLEMENTATION"
+
+  - id: "GATE-IOSTG-ROOT-STAGE"
+    title: "Optional staging"
+    purpose: "Keep edit authorization separate from staging authorization."
+    entry_conditions:
+      all:
+        - id: "COND-IOSTG-VERIFICATION-PASSED"
+          condition:
+            kind: "gate_evaluation_match"
+            gate_ref: "GATE-IOSTG-ROOT-VERIFICATION"
+            expected_result: "passed"
+    decision_requirements: []
+    capability_requirements:
+      - id: "CAPREQ-IOSTG-ROOT-STAGE"
+        action: "stage"
+        principal_selector:
+          kind: "agent_or_human"
+          binding: "grant_principal"
+        target_selector:
+          kind: "accepted_result_paths"
+          bounded_by: "task_revision.capability_bounds.scope_ceilings.repository_paths"
+        environment_selector:
+          kind: "git_repository"
+          id: "local_git_repository"
+        subject_selector:
+          kind: "workspace_fingerprint"
+          value: "accepted_implementation_result"
+        grant_constraints:
+          mode: "single_use"
+          transferable: false
+          expires_at_required: true
+    evidence_requirements:
+      - id: "EVREQ-IOSTG-ROOT-INDEX"
+        subject_selector:
+          kind: "git_index_fingerprint"
+          value: "stage_result"
+        predicate:
+          name: "index_matches_accepted_result_paths"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "git-index-inspector"
+          version: "recorded_at_run"
+        environment_selector:
+          kind: "git_repository"
+          constraints:
+            - key: "repository_id"
+              operator: "equals"
+              value: "local_git_repository"
+        freshness:
+          mode: "fingerprint_bound"
+    acceptance_requirements: []
+    on_pass:
+      next_gate_ref: "GATE-IOSTG-ROOT-COMMIT"
+    on_not_passed:
+      default_result: "waiting"
+      rollback_gate_ref: null
+
+  - id: "GATE-IOSTG-ROOT-COMMIT"
+    title: "Optional commit"
+    purpose: "Keep staging authorization separate from commit authorization."
+    entry_conditions:
+      all:
+        - id: "COND-IOSTG-STAGE-PASSED"
+          condition:
+            kind: "gate_evaluation_match"
+            gate_ref: "GATE-IOSTG-ROOT-STAGE"
+            expected_result: "passed"
+    decision_requirements: []
+    capability_requirements:
+      - id: "CAPREQ-IOSTG-ROOT-COMMIT"
+        action: "commit"
+        principal_selector:
+          kind: "agent_or_human"
+          binding: "grant_principal"
+        target_selector:
+          kind: "git_repository"
+          values:
+            - "local_git_repository"
+        environment_selector:
+          kind: "git_repository"
+          id: "local_git_repository"
+        subject_selector:
+          kind: "git_index_fingerprint"
+          value: "verified_stage_result"
+        grant_constraints:
+          mode: "single_use"
+          transferable: false
+          expires_at_required: true
+    evidence_requirements:
+      - id: "EVREQ-IOSTG-ROOT-COMMIT-TREE"
+        subject_selector:
+          kind: "exact_revision"
+          value: "commit_result"
+        predicate:
+          name: "commit_tree_matches_accepted_result"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "git-tree-inspector"
+          version: "recorded_at_run"
+        environment_selector:
+          kind: "git_repository"
+          constraints:
+            - key: "repository_id"
+              operator: "equals"
+              value: "local_git_repository"
+        freshness:
+          mode: "immutable"
+    acceptance_requirements: []
+    on_pass:
+      next_gate_ref: "GATE-IOSTG-ROOT-CHECKPOINT"
+    on_not_passed:
+      default_result: "waiting"
+      rollback_gate_ref: null
+
+  - id: "GATE-IOSTG-ROOT-CHECKPOINT"
+    title: "Optional Checkpoint tag"
+    purpose: "Keep verified code, commit creation, and tutorial publication separate."
+    entry_conditions:
+      all:
+        - id: "COND-IOSTG-COMMIT-PASSED"
+          condition:
+            kind: "gate_evaluation_match"
+            gate_ref: "GATE-IOSTG-ROOT-COMMIT"
+            expected_result: "passed"
+    decision_requirements: []
+    capability_requirements:
+      - id: "CAPREQ-IOSTG-ROOT-TAG"
+        action: "tag"
+        principal_selector:
+          kind: "agent_or_human"
+          binding: "grant_principal"
+        target_selector:
+          kind: "git_ref_pattern"
+          values:
+            - "refs/tags/CP-*"
+        environment_selector:
+          kind: "git_repository"
+          id: "local_git_repository"
+        subject_selector:
+          kind: "exact_revision"
+          value: "accepted_commit_result"
+        grant_constraints:
+          mode: "single_use"
+          transferable: false
+          expires_at_required: true
+    evidence_requirements:
+      - id: "EVREQ-IOSTG-ROOT-CHECKPOINT"
+        subject_selector:
+          kind: "exact_revision"
+          value: "accepted_commit_result"
+        predicate:
+          name: "checkpoint_restores_and_verifies_from_clean_checkout"
+          operator: "equals"
+          expected: true
+        evaluator_ref:
+          id: "iostg.checkpoint-verifier"
+          version: "work-unit-0001"
+        environment_selector:
+          kind: "git_repository"
+          constraints:
+            - key: "checkout_state"
+              operator: "equals"
+              value: "clean"
+            - key: "lesson_checkpoint_references_consistent"
+              operator: "equals"
+              value: true
+        freshness:
+          mode: "revision_bound"
+    acceptance_requirements:
+      - id: "ACCEPTREQ-IOSTG-ROOT-CHECKPOINT"
+        selector:
+          record_kind: "Acceptance"
+          target_kind: "checkpoint_candidate"
+          target_ref: "accepted_commit_result"
+          predicate: "accepted_for_checkpoint_tagging"
+          expected: true
+          authority_domain: "maintainer_decision"
+    on_pass:
+      next_gate_ref: null
+    on_not_passed:
+      default_result: "waiting"
+      rollback_gate_ref: null
+
+context_policy:
+  id: "CONTEXT-IOSTG-ROOT-0001"
+  strategy: "progressive_disclosure"
+  always_read:
+    - "AGENTS.md"
+    - ".aidev/examples/iostg-project-policy.example.yaml"
+    - ".aidev/examples/iostg-root-onboarding.example.yaml"
+    - ".aidev/examples/iostg-root-onboarding.events.example.yaml"
+  task_reads:
+    - "iOSTG/iOSTGApp.swift"
+    - "iOSTG/ContentView.swift"
+    - "iOSTG/Core/AppView/AppView.swift"
+    - "iOSTG/Core/AppView/AppViewFactory.swift"
+    - "iOSTG/Core/Welcome/WelcomeView.swift"
+    - "iOSTG/Core/Onboarding/Completed/CompletedView.swift"
+  exclude_by_default:
+    - "Unrelated historical commits and tutorial chapters"
+    - "Build artifacts, DerivedData, and xcuserdata"
+    - "Omnia task and Evidence history"
+  escalation_rules:
+    - when:
+        kind: "scope_expansion_requested"
+        selector: "navigation_or_persisted_state_ownership"
+      add:
+        - "Relevant iOSTG tests, ADRs, Experiments, and Checkpoints"
+    - when:
+        kind: "scope_expansion_requested"
+        selector: "xcode_target_scheme_configuration_or_environment"
+      add:
+        - "iOSTG.xcodeproj/project.pbxproj"
+        - "Relevant scheme and configuration sources"
+  handoff_requirements:
+    include:
+      - "project_identity_and_checkout_fingerprint"
+      - "schema_policy_and_reducer_revisions"
+      - "work_unit_and_task_revisions"
+      - "event_stream_id_cursor_and_head_digest"
+      - "current_gate_and_gate_evaluations"
+      - "decision_revisions_and_pending_acceptances"
+      - "grants_with_principal_expiry_uses_and_transferability"
+      - "active_run_owner_lease_and_side_effects"
+      - "previous_run_terminal_state_and_incomplete_outputs"
+      - "valid_stale_and_contested_evidence"
+      - "open_conflicts_cleanup_and_rollback_obligations"
+
+runtime_record_sources:
+  event_stream:
+    id: "EVENTS-IOSTG-ROOT-0001-FIXTURE"
+    locator: ".aidev/examples/iostg-root-onboarding.events.example.yaml"
+    ordering: "stream_sequence"
+  independent_record_kinds:
+    - "DecisionRevision"
+    - "CapabilityGrant"
+    - "Run"
+    - "Evidence"
+    - "Acceptance"
+    - "GateEvaluation"
+  derived_projection:
+    locator: null
+    independent_authority: false

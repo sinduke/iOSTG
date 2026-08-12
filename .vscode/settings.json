@@ -186,6 +186,9 @@
   // 同时接受美式和英式英语；项目专有词加入白名单。
   "cSpell.language": "en,en-GB",
   "cSpell.words": [
+    "aidev",
+    "CAPREQ",
+    "EVREQ",
     "Firestore",
     "gearshape",
     "Interactor",
@@ -193,6 +196,8 @@
     "iOSTGUI",
     "lintable",
     "Lxxx",
+    "Omnia",
+    "pbxproj",
     "showdestinations",
     "swiftlint",
     "UDID",
