@@ -18,4 +18,10 @@ extension View {
             .background(.accent)
             .clipShape(.rect(cornerRadius: 16))
     }
+
+    func beButton(action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            self
+        }
+    }
 }

@@ -8,17 +8,30 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(AppState.self) private var appState
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
-        Form {
-            Text("Account")
-            Text("Notification")
+        NavigationStack {
+            List {
+                Button("Sign Out") {
+                    onSignOutButtonTapped()
+                }
+            }
+            .navigationTitle("Settings")
         }
-        .navigationTitle(
-            "Settings"
-        )
+    }
+
+    private func onSignOutButtonTapped() {
+        dismiss()
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+            appState.restartOnboarding()
+        }
     }
 }
 
 #Preview {
     SettingsView()
+        .environment(AppState(storage: UserDefaultsStorage()))
 }

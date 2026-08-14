@@ -8,24 +8,32 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Welcome to iOSTG!")
-                    .frame(maxHeight: .infinity)
+    let onGetStarted: () -> Void
 
-                NavigationLink {
-                    CompletedView()
-                } label: {
-                    Text("Get Started")
-                        .callToActionButtonStyle()
-                }
+    var body: some View {
+        VStack {
+            Text("Welcome to iOSTG!")
+                .frame(maxHeight: .infinity)
+
+            // Button(action: onGetStarted) {
+            //     Text("Get Started")
+            //         .callToActionButtonStyle()
+            // }
+
+            Button {
+                onGetStarted()
+            } label: {
+                Text("Get Started")
+                    .frame(maxWidth: .infinity)
             }
-            .padding()
+            .buttonStyle(.bordered)
+            .tint(.accent)
+            .controlSize(.large)
         }
+        .padding()
     }
 }
 
 #Preview {
-    WelcomeView()
+    WelcomeView(onGetStarted: {})
 }

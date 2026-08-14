@@ -21,6 +21,10 @@ struct TabBarView: View {
             Tab("Profile", systemImage: "person") {
                 ProfileView()
             }
+
+            Tab("Lab", systemImage: "flask") {
+                LabView()
+            }
         }
     }
 }

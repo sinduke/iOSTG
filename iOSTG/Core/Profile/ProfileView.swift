@@ -21,9 +21,9 @@ struct ProfileView: View {
                     settingsButton
                 }
             }
-        }
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
         }
     }
 

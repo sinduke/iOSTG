@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C0D00004A100000000000001 /* Documentation/Examples/ButtonDesign.md in Resources */ = {isa = PBXBuildFile; fileRef = C0D00004A100000000000002 /* Documentation/Examples/ButtonDesign.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F247548930245B25008A82AA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C0D00004A100000000000002 /* Documentation/Examples/ButtonDesign.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = Documentation/Examples/ButtonDesign.md; sourceTree = SOURCE_ROOT; };
 		F247547B30245B23008A82AA /* iOSTG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSTG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F247548830245B25008A82AA /* iOSTGTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSTGTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F247549230245B25008A82AA /* iOSTGUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSTGUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +80,7 @@
 		F247547230245B23008A82AA = {
 			isa = PBXGroup;
 			children = (
+				C0D00004A100000000000002 /* Documentation/Examples/ButtonDesign.md */,
 				F247547D30245B23008A82AA /* iOSTG */,
 				F247548B30245B25008A82AA /* iOSTGTests */,
 				F247549530245B25008A82AA /* iOSTGUITests */,
@@ -213,6 +219,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0D00004A100000000000001 /* Documentation/Examples/ButtonDesign.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

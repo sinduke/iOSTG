@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct CompletedView: View {
+    let onFinished: () -> Void
+
     var body: some View {
         VStack {
             Text("Congratulations!")
                 .frame(maxHeight: .infinity)
 
-            Button {
-                // Finished onboarding, navigate to the main app view
-            } label: {
+            Button(action: onFinished) {
                 Text("Finished")
                     .callToActionButtonStyle()
             }
@@ -25,5 +25,5 @@ struct CompletedView: View {
 }
 
 #Preview {
-    CompletedView()
+    CompletedView(onFinished: {})
 }
