@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C0D00004A100000000000001 /* Documentation/Examples/ButtonDesign.md in Resources */ = {isa = PBXBuildFile; fileRef = C0D00004A100000000000002 /* Documentation/Examples/ButtonDesign.md */; };
+		F247555A302F37ED008A82AA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F2475559302F37ED008A82AA /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F247555A302F37ED008A82AA /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +121,7 @@
 			);
 			name = iOSTG;
 			packageProductDependencies = (
+				F2475559302F37ED008A82AA /* Kingfisher */,
 			);
 			productName = iOSTG;
 			productReference = F247547B30245B23008A82AA /* iOSTG.app */;
@@ -202,6 +205,9 @@
 			);
 			mainGroup = F247547230245B23008A82AA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F2475558302F37ED008A82AA /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F247547C30245B23008A82AA /* Products */;
 			projectDirPath = "";
@@ -649,6 +655,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F2475558302F37ED008A82AA /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F2475559302F37ED008A82AA /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2475558302F37ED008A82AA /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F247547330245B23008A82AA /* Project object */;
 }

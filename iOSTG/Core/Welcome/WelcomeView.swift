@@ -9,28 +9,70 @@ import SwiftUI
 
 struct WelcomeView: View {
     let onGetStarted: () -> Void
+    @State private var imageName: String = RandomImageURL.generate()
 
     var body: some View {
         VStack {
-            Text("Welcome to iOSTG!")
-                .frame(maxHeight: .infinity)
+            ImageLoaderView(imageURLString: imageName)
+                .ignoresSafeArea()
 
-            // Button(action: onGetStarted) {
-            //     Text("Get Started")
-            //         .callToActionButtonStyle()
-            // }
+            titleSection
+                .padding(.top, 24)
 
-            Button {
-                onGetStarted()
-            } label: {
-                Text("Get Started")
-                    .frame(maxWidth: .infinity)
+            VStack(spacing: 8) {
+
+                getStartedButton
+
+                loginButton
+
+                legalLinks
             }
-            .buttonStyle(.bordered)
-            .tint(.accent)
-            .controlSize(.large)
+            .padding()
         }
-        .padding()
+    }
+
+    private var titleSection: some View {
+        VStack(spacing: 8) {
+            Text("iOSTG")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+
+            Text("Welcome to iOSTG!")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+        }
+    }
+
+    private var getStartedButton: some View {
+        Button(action: onGetStarted) {
+            Text("Get Started")
+                .callToActionButtonStyle()
+        }
+    }
+
+    private var legalLinks: some View {
+        HStack {
+            Link("Terms of Service", destination: LegalURLs.termsOfServiceURL)
+
+            Circle()
+                .frame(width: 4, height: 4)
+
+            Link("Privacy Policy", destination: LegalURLs.privacyPolicyURL)
+        }
+        .font(.footnote)
+    }
+
+    private var loginButton: some View {
+        Button {
+
+        } label: {
+            Text("Already have an account? Log in")
+                .font(.body)
+                .underline()
+                .padding()
+        }
     }
 }
 
